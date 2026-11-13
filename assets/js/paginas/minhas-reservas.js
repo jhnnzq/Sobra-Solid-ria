@@ -1,79 +1,90 @@
 iniciarPagina(() => {
-    const lista = document.getElementById('lista-reservas');
+    const listaAtivas = document.getElementById('reservas-ativas');
+    const listaHistorico = document.getElementById('reservas-historico');
+
+    function montarAcoes(reserva) {
+        if (reserva.situacao !== 'ativa') {
+            return null;
+        }
+
+        return criar('div', { classe: 'doacao-acoes' }, [
+            reserva.comercio_telefone
+                ? botaoWhatsapp(
+                    reserva.comercio_telefone,
+                    `Olá! Reservei a doação "${reserva.titulo}" pelo Sobra Solidária.`,
+                    'btn-whatsapp'
+                )
+                : null,
+            criar('button', {
+                classe: 'btn-cancelar',
+                texto: 'Cancelar reserva',
+                atributos: { type: 'button', 'data-id': reserva.reserva_id },
+            }),
+        ]);
+    }
 
     function montarCard(reserva) {
-        const descricao = reserva.descricao
-            ? `<p>${escaparHtml(reserva.descricao)}</p>`
-            : '';
-
-        const retirada = reserva.retirado_em
-            ? `<p><strong>Retirado em:</strong> ${escaparHtml(formatarDataHora(reserva.retirado_em))}</p>`
-            : '';
-
         const endereco = [reserva.comercio_endereco, reserva.comercio_bairro].filter(Boolean).join(', ');
 
-        const acoes = reserva.situacao === 'ativa'
-            ? `
-                <div class="doacao-acoes">
-                    <a href="${linkWhatsapp(reserva.comercio_telefone, `Olá! Reservei a doação "${reserva.titulo}" pelo Sobra Solidária.`)}" class="btn-whatsapp" target="_blank" rel="noopener">
-                        Chamar no WhatsApp
-                    </a>
-                    <button type="button" class="btn-cancelar" data-id="${escaparHtml(reserva.reserva_id)}">
-                        Cancelar reserva
-                    </button>
-                </div>
-            `
-            : '';
+        return criar('article', { classe: 'doacao-card' }, [
+            criar('div', { classe: 'doacao-topo' }, [
+                criar('h2', { texto: reserva.titulo }),
+                seloStatus(reserva.situacao),
+            ]),
+            criar('span', { classe: 'categoria', texto: reserva.categoria }),
+            criar('div', { classe: 'doacao-informacoes' }, [
+                linhaInfo('Quantidade', reserva.quantidade),
+                linhaInfo('Retirar até', formatarDataHora(reserva.limite_retirada)),
+                linhaInfo('Reservado em', formatarDataHora(reserva.reservado_em)),
+                reserva.retirado_em ? linhaInfo('Retirado em', formatarDataHora(reserva.retirado_em)) : null,
+                reserva.descricao ? criar('p', { texto: reserva.descricao }) : null,
+            ]),
+            criar('div', { classe: 'doacao-contato' }, [
+                criar('p', {}, [criar('strong', { texto: reserva.comercio_nome })]),
+                endereco ? criar('p', { texto: endereco }) : null,
+                reserva.comercio_telefone ? criar('p', { texto: formatarTelefone(reserva.comercio_telefone) }) : null,
+            ]),
+            montarAcoes(reserva),
+        ]);
+    }
 
-        return `
-            <article class="doacao-card">
-                <div class="doacao-topo">
-                    <h2>${escaparHtml(reserva.titulo)}</h2>
-                    ${seloStatus(reserva.situacao)}
-                </div>
-
-                <span class="categoria">${escaparHtml(reserva.categoria)}</span>
-
-                <div class="doacao-informacoes">
-                    <p><strong>Quantidade:</strong> ${escaparHtml(reserva.quantidade)}</p>
-                    <p><strong>Retirar até:</strong> ${escaparHtml(formatarDataHora(reserva.limite_retirada))}</p>
-                    <p><strong>Reservado em:</strong> ${escaparHtml(formatarDataHora(reserva.reservado_em))}</p>
-                    ${retirada}
-                    ${descricao}
-                </div>
-
-                <div class="doacao-contato">
-                    <p><strong>${escaparHtml(reserva.comercio_nome)}</strong></p>
-                    <p>${escaparHtml(endereco)}</p>
-                    <p>${escaparHtml(formatarTelefone(reserva.comercio_telefone))}</p>
-                </div>
-
-                ${acoes}
-            </article>
-        `;
+    function preencher(lista, reservas, textoVazio) {
+        if (reservas.length) {
+            lista.replaceChildren(...reservas.map(montarCard));
+        } else {
+            mostrarListaVazia(lista, textoVazio);
+        }
     }
 
     async function carregar() {
-        lista.innerHTML = listaVazia('Carregando reservas...');
+        mostrarListaVazia(listaAtivas, 'Carregando reservas...');
+        listaHistorico.replaceChildren();
 
         try {
             const reservas = await listarMinhasReservas();
-            lista.innerHTML = reservas.length
-                ? reservas.map(montarCard).join('')
-                : listaVazia('Você ainda não reservou nenhuma doação.');
+            preencher(
+                listaAtivas,
+                reservas.filter((reserva) => reserva.situacao === 'ativa'),
+                'Nenhuma reserva aguardando retirada.'
+            );
+            preencher(
+                listaHistorico,
+                reservas.filter((reserva) => reserva.situacao !== 'ativa'),
+                'Nenhuma reserva no histórico.'
+            );
         } catch (erro) {
-            lista.innerHTML = '';
+            listaAtivas.replaceChildren();
             tratarErroApi(erro);
         }
     }
 
-    lista.addEventListener('click', async (evento) => {
+    listaAtivas.addEventListener('click', async (evento) => {
         const botao = evento.target.closest('button[data-id]');
         if (!botao) {
             return;
         }
 
-        if (!window.confirm('Deseja cancelar esta reserva? A doação volta a ficar disponível.')) {
+        if (!confirmar('Deseja cancelar esta reserva? A doação volta a ficar disponível para outras ONGs.')) {
             return;
         }
 
