@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cadastro | Projeto</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/cadastro.css">
+
+</head>
+
+<body>
+
+    <main class="cadastro-container">
+
+        <section class="cadastro-card">
+
+            <div class="logo">
+                <h1>Alimento Para Todos</h1>
+                <p>Conectando alimentos, pessoas e oportunidades.</p>
+            </div>
+
+            <div class="cadastro-titulo">
+                <h2>Crie sua conta</h2>
+                <p>Preencha seus dados para participar.</p>
+            </div>
+
+            <form action="#" method="POST">
+
+                <div class="campo">
+                    <label for="nome">Nome completo</label>
+                    <input
+                        type="text"
+                        id="nome"
+                        name="nome"
+                        placeholder="Digite seu nome"
+                        required
+                    >
+                </div>
+
+                <div class="campo">
+                    <label for="perfil">Tipo de perfil</label>
+                    <select id="perfil" name="perfil" required>
+                        <option value="">Selecione seu perfil</option>
+                        <option value="comercio">Comércio</option>
+                        <option value="ong">ONG</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="email">E-mail</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Digite seu e-mail"
+                        required
+                    >
+                </div>
+
+                <div class="campo">
+                    <label for="telefone">Telefone</label>
+                    <input
+                        type="tel"
+                        id="telefone"
+                        name="telefone"
+                        placeholder="(00) 00000-0000"
+                        required
+                    >
+                </div>
+
+                <div class="campo">
+                    <label for="bairro">Bairro</label>
+                    <input
+                        type="text"
+                        id="bairro"
+                        name="bairro"
+                        placeholder="Digite seu bairro"
+                        required
+                    >
+                </div>
+
+                <div class="campo">
+                    <label for="endereco">Endereço (opcional)</label>
+                    <input
+                        type="text"
+                        id="endereco"
+                        name="endereco"
+                        placeholder="Rua, número e complemento"
+                    >
+                </div>
+
+                <div class="campo">
+                    <label for="senha">Senha</label>
+                    <input
+                        type="password"
+                        id="senha"
+                        name="senha"
+                        placeholder="Mínimo de 8 caracteres"
+                        minlength="8"
+                        required
+                    >
+                </div>
+
+                <div class="campo">
+                    <label for="confirmar_senha">Confirmar senha</label>
+                    <input
+                        type="password"
+                        id="confirmar_senha"
+                        name="confirmar_senha"
+                        placeholder="Digite sua senha novamente"
+                        minlength="8"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="btn-cadastrar">
+                    Criar conta
+                </button>
+
+            </form>
+
+            <div class="cadastro-login">
+                <p>
+                    Já possui uma conta?
+                    <a href="login.html">Fazer login</a>
+                </p>
+            </div>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

@@ -1,0 +1,120 @@
+
+.cadastro-container {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 30px 20px;
+}
+
+.cadastro-card {
+    width: 100%;
+    max-width: 480px;
+
+    background-color: var(--branco);
+
+    padding: 40px;
+
+    border: 1px solid var(--borda);
+    border-radius: 16px;
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo h1 {
+    font-size: 27px;
+    font-weight: 700;
+}
+
+.logo p {
+    color: var(--texto-secundario);
+    font-size: 12px;
+}
+
+.cadastro-titulo {
+    margin-bottom: 25px;
+}
+
+.cadastro-titulo h2 {
+    font-size: 23px;
+    margin-bottom: 5px;
+}
+
+.cadastro-titulo p {
+    color: var(--texto-secundario);
+}
+
+.campo {
+    margin-bottom: 18px;
+}
+
+.campo label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.campo input,
+.campo select {
+    width: 100%;
+    padding: 13px;
+
+    border: 1px solid var(--borda);
+    border-radius: 10px;
+
+    outline: none;
+    font-family: var(--fonte-texto);
+    font-size: 14px;
+
+    background-color: var(--branco);
+}
+
+.campo input:focus,
+.campo select:focus {
+    border-color: var(--verde-natural);
+}
+
+.btn-cadastrar {
+    width: 100%;
+    padding: 14px;
+
+    background-color: var(--verde-natural);
+    color: var(--branco);
+
+    border: none;
+    border-radius: 10px;
+
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-cadastrar:hover {
+    background-color: var(--verde-principal);
+}
+
+.cadastro-login {
+    text-align: center;
+    margin-top: 25px;
+
+    font-size: 13px;
+}
+
+.cadastro-login a {
+    font-weight: 700;
+}
+
+@media (max-width: 480px) {
+
+    .cadastro-card {
+        padding: 28px 22px;
+    }
+
+    .logo h1 {
+        font-size: 23px;
+    }
+}

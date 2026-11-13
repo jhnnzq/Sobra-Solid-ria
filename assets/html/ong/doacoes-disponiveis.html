@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Doações Disponíveis | Projeto</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/ong.css">
+
+</head>
+
+<body>
+
+    <header class="cabecalho">
+
+        <div class="logo">
+            <h1>Alimentos Para Todos</h1>
+        </div>
+
+        <nav class="menu">
+            <a href="doacoes-disponiveis.html" class="ativo">
+                Doações disponíveis
+            </a>
+
+            <a href="minhas-reservas.html">
+                Minhas reservas
+            </a>
+
+            <a href="../login.html">
+                Sair
+            </a>
+        </nav>
+
+    </header>
+
+    <main class="conteudo">
+
+        <section class="pagina-titulo">
+
+            <div>
+                <h2>Doações disponíveis</h2>
+
+                <p>
+                    Encontre alimentos disponíveis para sua instituição.
+                </p>
+            </div>
+
+        </section>
+
+        <section class="filtros">
+
+            <div class="campo-filtro">
+
+                <label for="bairro">Bairro</label>
+
+                <input
+                    type="text"
+                    id="bairro"
+                    name="bairro"
+                    placeholder="Digite um bairro"
+                >
+
+            </div>
+
+            <div class="campo-filtro">
+
+                <label for="categoria">Categoria</label>
+
+                <select id="categoria" name="categoria">
+                    <option value="">Todas as categorias</option>
+                </select>
+
+            </div>
+
+            <button type="submit" class="btn-principal">
+                Filtrar
+            </button>
+
+        </section>
+
+        <section class="lista-doacoes">
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

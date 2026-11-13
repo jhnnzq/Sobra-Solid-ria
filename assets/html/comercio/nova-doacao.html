@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Nova Doação</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/comercio.css">
+
+</head>
+
+<body>
+
+    <header class="cabecalho">
+
+        <div class="logo">
+            <h1>Alimento Para Todos</h1>
+        </div>
+
+        <nav class="menu">
+            <a href="minhas-doacoes.html">Minhas doações</a>
+            <a href="../login.html">Sair</a>
+        </nav>
+
+    </header>
+
+    <main class="conteudo">
+
+        <section class="formulario-container">
+
+            <div class="pagina-titulo">
+                <div>
+                    <h2>Nova doação</h2>
+                    <p>Compartilhe alimentos e ajude quem precisa.</p>
+                </div>
+            </div>
+
+            <form class="formulario-doacao" action="#" method="POST">
+
+                <div class="campo">
+                    <label for="titulo">Nome do alimento</label>
+
+                    <input
+                        type="text"
+                        id="titulo"
+                        name="titulo"
+                        placeholder="Ex: Frutas variadas"
+                        required
+                    >
+                </div>
+
+                <div class="campo">
+                    <label for="categoria_id">Categoria</label>
+
+                    <select
+                        id="categoria_id"
+                        name="categoria_id"
+                        required
+                    >
+                        <option value="">Selecione uma categoria</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="quantidade">Quantidade</label>
+
+                    <input
+                        type="text"
+                        id="quantidade"
+                        name="quantidade"
+                        placeholder="Ex: 10 kg ou 20 unidades"
+                        required
+                    >
+                </div>
+
+                <div class="campo">
+                    <label for="limite_retirada">Prazo para retirada</label>
+
+                    <input
+                        type="datetime-local"
+                        id="limite_retirada"
+                        name="limite_retirada"
+                        required
+                    >
+                </div>
+
+                <div class="campo">
+                    <label for="descricao">Descrição (opcional)</label>
+
+                    <textarea
+                        id="descricao"
+                        name="descricao"
+                        rows="4"
+                        placeholder="Adicione informações sobre os alimentos..."
+                    ></textarea>
+                </div>
+
+                <div class="formulario-acoes">
+
+                    <a href="minhas-doacoes.html" class="btn-voltar">
+                        Voltar
+                    </a>
+
+                    <button type="submit" class="btn-principal">
+                        Cadastrar doação
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>

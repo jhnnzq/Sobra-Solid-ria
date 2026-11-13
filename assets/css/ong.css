@@ -1,0 +1,250 @@
+
+.cabecalho {
+    background-color: var(--branco);
+    padding: 18px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--borda);
+}
+
+.logo h1 {
+    font-size: 24px;
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.menu a {
+    color: var(--texto-secundario);
+    font-weight: 500;
+}
+
+.menu a:hover,
+.menu a.ativo {
+    color: var(--verde-principal);
+}
+
+.conteudo {
+    width: 84%;
+    max-width: 1100px;
+    margin: 40px auto;
+}
+
+.pagina-titulo {
+    margin-bottom: 25px;
+    font-size: 28px;
+}
+
+.filtros {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: var(--branco);
+    border: 1px solid var(--borda);
+    border-radius: 10px;
+}
+
+.filtros input,
+.filtros select {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid var(--borda);
+    border-radius: 6px;
+    font-family: var(--fonte-texto);
+    font-size: 14px;
+    outline: none;
+}
+
+.filtros input:focus,
+.filtros select:focus {
+    border-color: var(--verde-natural);
+}
+
+.btn-filtrar {
+    background-color: var(--verde-principal);
+    color: var(--branco);
+    border: none;
+    padding: 12px 22px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-filtrar:hover {
+    background-color: var(--verde-natural);
+}
+
+.lista-doacoes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.doacao-card {
+    background-color: var(--branco);
+    border: 1px solid var(--borda);
+    border-radius: 10px;
+    padding: 22px;
+}
+
+.doacao-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+
+.doacao-topo h2 {
+    font-size: 20px;
+}
+
+.categoria {
+    display: inline-block;
+    background-color: var(--verde-claro);
+    color: var(--verde-principal);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.doacao-informacoes {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.doacao-informacoes p {
+    color: var(--texto-secundario);
+    font-size: 14px;
+}
+
+.status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.disponivel {
+    background-color: #E2F2E6;
+    color: #34734A;
+}
+
+.reservada {
+    background-color: #FFF1D6;
+    color: #94651D;
+}
+
+.retirada {
+    background-color: #E5EAF5;
+    color: #455D8A;
+}
+
+.cancelada,
+.expirada {
+    background-color: #FBE5E5;
+    color: #A94444;
+}
+
+.btn-principal,
+.btn-reservar,
+.btn-confirmar,
+.btn-whatsapp {
+    display: inline-block;
+    padding: 11px 18px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-reservar,
+.btn-principal {
+    background-color: var(--verde-principal);
+    color: var(--branco);
+}
+
+.btn-reservar:hover,
+.btn-principal:hover {
+    background-color: var(--verde-natural);
+    color: var(--branco);
+}
+
+.btn-cancelar {
+    background-color: #FBE5E5;
+    color: #A94444;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-cancelar:hover {
+    background-color: #F5D2D2;
+}
+
+.btn-whatsapp {
+    background-color: #E2F2E6;
+    color: #34734A;
+}
+
+.btn-whatsapp:hover {
+    background-color: #CDE8D4;
+    color: #245C45;
+}
+
+.btn-voltar {
+    color: var(--verde-principal);
+    font-weight: 600;
+}
+
+.doacao-acoes {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+@media (max-width: 700px) {
+
+    .cabecalho {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .menu {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .conteudo {
+        width: 92%;
+        margin: 25px auto;
+    }
+
+    .filtros {
+        flex-direction: column;
+    }
+
+    .lista-doacoes {
+        grid-template-columns: 1fr;
+    }
+
+    .doacao-topo {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
