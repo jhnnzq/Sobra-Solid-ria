@@ -12,76 +12,75 @@ iniciarPagina(() => {
 
     function montarContato(doacao) {
         if (!doacao.ong_nome) {
-            return '';
+            return null;
         }
 
-        const whatsapp = doacao.situacao === 'reservada'
-            ? `<p><a href="${linkWhatsapp(doacao.ong_telefone, `Olá! Sobre a doação "${doacao.titulo}"`)}" target="_blank" rel="noopener">Chamar no WhatsApp</a></p>`
-            : '';
+        return criar('div', { classe: 'doacao-contato' }, [
+            linhaInfo('Reservada por', doacao.ong_nome),
+            doacao.ong_telefone ? linhaInfo('Telefone', formatarTelefone(doacao.ong_telefone)) : null,
+            doacao.ong_telefone
+                ? criar('p', {}, [botaoWhatsapp(doacao.ong_telefone, `Olá! Sobre a doação "${doacao.titulo}"`, 'link-whatsapp')])
+                : null,
+        ]);
+    }
 
-        return `
-            <div class="doacao-contato">
-                <p><strong>Reservada por:</strong> ${escaparHtml(doacao.ong_nome)}</p>
-                <p><strong>Telefone:</strong> ${escaparHtml(formatarTelefone(doacao.ong_telefone))}</p>
-                ${whatsapp}
-            </div>
-        `;
+    function botaoAcao(texto, classe, acao, id) {
+        return criar('button', {
+            classe,
+            texto,
+            atributos: { type: 'button', 'data-acao': acao, 'data-id': id },
+        });
     }
 
     function montarAcoes(doacao) {
         const acoes = [];
 
         if (doacao.situacao === 'disponivel') {
-            acoes.push(`<a href="nova-doacao.html?id=${encodeURIComponent(doacao.id)}" class="btn-secundario">Editar</a>`);
+            acoes.push(criar('a', {
+                classe: 'btn-secundario',
+                texto: 'Editar',
+                atributos: { href: `nova-doacao.html?id=${encodeURIComponent(doacao.id)}` },
+            }));
+            acoes.push(botaoAcao('Cancelar', 'btn-cancelar', 'cancelar', doacao.id));
         }
 
         if (doacao.situacao === 'reservada') {
-            acoes.push(`<button type="button" class="btn-confirmar" data-acao="retirada" data-id="${escaparHtml(doacao.id)}">Confirmar retirada</button>`);
+            acoes.push(botaoAcao('Confirmar retirada', 'btn-confirmar', 'retirada', doacao.id));
+            acoes.push(botaoAcao('Cancelar', 'btn-cancelar', 'cancelar', doacao.id));
         }
 
-        if (doacao.situacao === 'disponivel' || doacao.situacao === 'reservada') {
-            acoes.push(`<button type="button" class="btn-cancelar" data-acao="cancelar" data-id="${escaparHtml(doacao.id)}">Cancelar</button>`);
-        }
-
-        return acoes.length ? `<div class="doacao-acoes">${acoes.join('')}</div>` : '';
+        return acoes.length ? criar('div', { classe: 'doacao-acoes' }, acoes) : null;
     }
 
     function montarCard(doacao) {
-        const descricao = doacao.descricao
-            ? `<p>${escaparHtml(doacao.descricao)}</p>`
-            : '';
-
-        return `
-            <article class="doacao-card">
-                <div class="doacao-topo">
-                    <h3>${escaparHtml(doacao.titulo)}</h3>
-                    ${seloStatus(doacao.situacao)}
-                </div>
-
-                <p class="categoria">${escaparHtml(doacao.categoria)}</p>
-
-                <div class="doacao-informacoes">
-                    <p><strong>Quantidade:</strong> ${escaparHtml(doacao.quantidade)}</p>
-                    <p><strong>Retirar até:</strong> ${escaparHtml(formatarDataHora(doacao.limite_retirada))}</p>
-                    ${descricao}
-                </div>
-
-                ${montarContato(doacao)}
-                ${montarAcoes(doacao)}
-            </article>
-        `;
+        return criar('article', { classe: 'doacao-card' }, [
+            criar('div', { classe: 'doacao-topo' }, [
+                criar('h3', { texto: doacao.titulo }),
+                seloStatus(doacao.situacao),
+            ]),
+            criar('p', { classe: 'categoria', texto: doacao.categoria }),
+            criar('div', { classe: 'doacao-informacoes' }, [
+                linhaInfo('Quantidade', doacao.quantidade),
+                linhaInfo('Retirar até', formatarDataHora(doacao.limite_retirada)),
+                doacao.descricao ? criar('p', { texto: doacao.descricao }) : null,
+            ]),
+            montarContato(doacao),
+            montarAcoes(doacao),
+        ]);
     }
 
     async function carregar() {
-        lista.innerHTML = listaVazia('Carregando doações...');
+        mostrarListaVazia(lista, 'Carregando doações...');
 
         try {
             const doacoes = await listarMinhasDoacoes();
-            lista.innerHTML = doacoes.length
-                ? doacoes.map(montarCard).join('')
-                : listaVazia('Você ainda não cadastrou nenhuma doação.');
+            if (doacoes.length) {
+                lista.replaceChildren(...doacoes.map(montarCard));
+            } else {
+                mostrarListaVazia(lista, 'Você ainda não cadastrou nenhuma doação.');
+            }
         } catch (erro) {
-            lista.innerHTML = '';
+            lista.replaceChildren();
             tratarErroApi(erro);
         }
     }
@@ -94,10 +93,10 @@ iniciarPagina(() => {
 
         const { acao, id } = botao.dataset;
         const pergunta = acao === 'cancelar'
-            ? 'Deseja cancelar esta doação?'
+            ? 'Deseja cancelar esta doação? Se houver reserva, ela também será cancelada.'
             : 'Confirmar que a ONG retirou esta doação?';
 
-        if (!window.confirm(pergunta)) {
+        if (!confirmar(pergunta)) {
             return;
         }
 
@@ -108,7 +107,7 @@ iniciarPagina(() => {
                 await cancelarDoacao(id);
                 mostrarMensagem('Doação cancelada.', 'sucesso');
             } else {
-                await confirmarRetirada(id);
+                await confirmarRetirada(Number(id));
                 mostrarMensagem('Retirada confirmada.', 'sucesso');
             }
             await carregar();
