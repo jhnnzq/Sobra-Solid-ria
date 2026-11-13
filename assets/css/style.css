@@ -45,3 +45,69 @@ a {
 a:hover {
     color: var(--verde-principal);
 }
+
+body[data-area="comercio"]:not(.liberado),
+body[data-area="ong"]:not(.liberado) {
+    visibility: hidden;
+}
+
+.mensagem {
+    display: none;
+
+    margin-bottom: 18px;
+    padding: 12px 14px;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+}
+
+.mensagem.erro {
+    display: block;
+    background-color: #FCE8E6;
+    color: #A34238;
+}
+
+.mensagem.sucesso {
+    display: block;
+    background-color: var(--verde-claro);
+    color: var(--verde-principal);
+}
+
+.lista-vazia {
+    grid-column: 1 / -1;
+
+    padding: 40px 20px;
+
+    background-color: var(--branco);
+    color: var(--texto-secundario);
+
+    border: 1px dashed var(--borda);
+    border-radius: 13px;
+
+    text-align: center;
+}
+
+.usuario-nome {
+    color: var(--texto-principal);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.doacao-contato {
+    margin-bottom: 18px;
+    padding: 12px 14px;
+
+    background-color: var(--verde-claro);
+    border-radius: 8px;
+}
+
+.doacao-contato p {
+    color: var(--texto-principal);
+    font-size: 13px;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
