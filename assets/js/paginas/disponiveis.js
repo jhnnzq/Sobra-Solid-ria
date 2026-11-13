@@ -3,53 +3,65 @@ iniciarPagina(async () => {
     const lista = document.getElementById('lista-doacoes');
 
     function montarCard(doacao) {
-        const descricao = doacao.descricao
-            ? `<p>${escaparHtml(doacao.descricao)}</p>`
-            : '';
-
-        return `
-            <article class="doacao-card">
-                <div class="doacao-topo">
-                    <h2>${escaparHtml(doacao.titulo)}</h2>
-                    ${seloStatus('disponivel')}
-                </div>
-
-                <span class="categoria">${escaparHtml(doacao.categoria)}</span>
-
-                <div class="doacao-informacoes">
-                    <p><strong>Comércio:</strong> ${escaparHtml(doacao.comercio_nome)}</p>
-                    <p><strong>Bairro:</strong> ${escaparHtml(doacao.bairro)}</p>
-                    <p><strong>Quantidade:</strong> ${escaparHtml(doacao.quantidade)}</p>
-                    <p><strong>Retirar até:</strong> ${escaparHtml(formatarDataHora(doacao.limite_retirada))}</p>
-                    ${descricao}
-                </div>
-
-                <div class="doacao-acoes">
-                    <button type="button" class="btn-reservar" data-id="${escaparHtml(doacao.id)}">
-                        Reservar
-                    </button>
-                </div>
-            </article>
-        `;
+        return criar('article', { classe: 'doacao-card' }, [
+            criar('div', { classe: 'doacao-topo' }, [
+                criar('h2', { texto: doacao.titulo }),
+                seloStatus('disponivel'),
+            ]),
+            criar('span', { classe: 'categoria', texto: doacao.categoria }),
+            criar('div', { classe: 'doacao-informacoes' }, [
+                linhaInfo('Comércio', doacao.comercio_nome),
+                linhaInfo('Bairro', doacao.bairro),
+                linhaInfo('Quantidade', doacao.quantidade),
+                linhaInfo('Retirar até', formatarDataHora(doacao.limite_retirada)),
+                doacao.descricao ? criar('p', { texto: doacao.descricao }) : null,
+            ]),
+            criar('div', { classe: 'doacao-acoes' }, [
+                criar('button', {
+                    classe: 'btn-reservar',
+                    texto: 'Reservar',
+                    atributos: { type: 'button', 'data-id': doacao.id, 'data-titulo': doacao.titulo },
+                }),
+            ]),
+        ]);
     }
 
     async function carregar() {
         const filtros = lerFormulario(formulario);
-        const filtrando = Boolean(filtros.bairro || filtros.categoria);
+        const filtrando = Boolean(filtros.bairro.trim() || filtros.categoria);
 
-        lista.innerHTML = listaVazia('Carregando doações...');
+        mostrarListaVazia(lista, 'Carregando doações...');
 
         try {
-            const doacoes = await listarDoacoesDisponiveis(filtros);
-            lista.innerHTML = doacoes.length
-                ? doacoes.map(montarCard).join('')
-                : listaVazia(filtrando
+            const doacoes = await listarDoacoesDisponiveis({
+                bairro: filtros.bairro.trim(),
+                categoria: filtros.categoria,
+            });
+            if (doacoes.length) {
+                lista.replaceChildren(...doacoes.map(montarCard));
+            } else {
+                mostrarListaVazia(lista, filtrando
                     ? 'Nenhuma doação encontrada com esses filtros.'
-                    : 'Nenhuma doação disponível no momento.');
+                    : 'Nenhuma doação disponível agora.');
+            }
         } catch (erro) {
-            lista.innerHTML = '';
+            lista.replaceChildren();
             tratarErroApi(erro);
         }
+    }
+
+    function mostrarReserva(comercio, titulo) {
+        const endereco = [comercio.endereco, comercio.bairro].filter(Boolean).join(', ');
+
+        mostrarMensagem([
+            criar('strong', { texto: 'Reserva feita! ' }),
+            `Retire em ${comercio.nome}`,
+            endereco ? ` (${endereco})` : '',
+            comercio.telefone ? ` — ${formatarTelefone(comercio.telefone)}. ` : '. ',
+            comercio.telefone
+                ? botaoWhatsapp(comercio.telefone, `Olá! Reservei a doação "${titulo}" pelo Sobra Solidária.`, 'link-whatsapp')
+                : null,
+        ], 'sucesso');
     }
 
     formulario.addEventListener('submit', (evento) => {
@@ -64,7 +76,7 @@ iniciarPagina(async () => {
             return;
         }
 
-        if (!window.confirm('Deseja reservar esta doação?')) {
+        if (!confirmar('Deseja reservar esta doação?')) {
             return;
         }
 
@@ -72,15 +84,7 @@ iniciarPagina(async () => {
 
         try {
             const resultado = await reservarDoacao(Number(botao.dataset.id));
-            const comercio = resultado.comercio || {};
-            const endereco = [comercio.endereco, comercio.bairro].filter(Boolean).join(', ');
-
-            mostrarMensagem(
-                `Reserva feita! Retire com ${comercio.nome}`
-                + (endereco ? ` (${endereco})` : '')
-                + ` — telefone ${formatarTelefone(comercio.telefone)}. Veja os detalhes em Minhas reservas.`,
-                'sucesso'
-            );
+            mostrarReserva(resultado.comercio || {}, botao.dataset.titulo);
             await carregar();
         } catch (erro) {
             tratarErroApi(erro);
