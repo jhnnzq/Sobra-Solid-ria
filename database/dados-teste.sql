@@ -1,4 +1,5 @@
 USE sobra_solidaria;
+SET NAMES utf8mb4;
  
 INSERT INTO usuarios (perfil, nome, email, senha, telefone, endereco, bairro) VALUES
 	('comercio', 'Padaria Pão Quente', 'padaria@teste.com',

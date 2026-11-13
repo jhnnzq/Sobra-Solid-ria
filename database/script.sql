@@ -3,6 +3,7 @@ CREATE DATABASE IF NOT EXISTS sobra_solidaria
     COLLATE utf8mb4_unicode_ci;
  
 USE sobra_solidaria;
+SET NAMES utf8mb4;
  
 CREATE TABLE usuarios (
 	id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
