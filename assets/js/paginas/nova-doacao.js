@@ -48,6 +48,14 @@ iniciarPagina(async () => {
         mostrarMensagem('');
 
         const dados = lerFormulario(formulario);
+        const limite = converterData(dados.limite_retirada);
+
+        if (!limite || limite <= new Date()) {
+            mostrarMensagem('Escolha um prazo de retirada no futuro.', 'erro');
+            campos.limite_retirada.focus();
+            return;
+        }
+
         botao.disabled = true;
 
         try {
