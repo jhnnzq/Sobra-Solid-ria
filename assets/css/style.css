@@ -107,6 +107,11 @@ body[data-area="ong"]:not(.liberado) {
     font-size: 13px;
 }
 
+.link-whatsapp {
+    font-weight: 700;
+    text-decoration: underline;
+}
+
 button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
