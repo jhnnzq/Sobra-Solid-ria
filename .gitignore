@@ -1,5 +1,5 @@
 api/config/conexao.php
-api/config/teste-conexao.php
+api/teste-conexao.php
 .DS_Store
 Thumbs.db
 .vscode/
