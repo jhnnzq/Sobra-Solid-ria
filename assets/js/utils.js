@@ -1,16 +1,34 @@
 const STATUS = {
     disponivel: { rotulo: 'Disponível', classe: 'disponivel' },
     reservada: { rotulo: 'Reservada', classe: 'reservada' },
-    ativa: { rotulo: 'Reservada', classe: 'reservada' },
     retirada: { rotulo: 'Retirada', classe: 'retirada' },
-    concluida: { rotulo: 'Retirada', classe: 'retirada' },
     cancelada: { rotulo: 'Cancelada', classe: 'cancelada' },
     expirada: { rotulo: 'Expirada', classe: 'expirada' },
+    ativa: { rotulo: 'Aguardando retirada', classe: 'reservada' },
+    concluida: { rotulo: 'Retirada', classe: 'retirada' },
 };
 
-function escaparHtml(valor) {
-    const trocas = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
-    return String(valor ?? '').replace(/[&<>"']/g, (caractere) => trocas[caractere]);
+function criar(tag, opcoes = {}, filhos = []) {
+    const elemento = document.createElement(tag);
+    if (opcoes.classe) {
+        elemento.className = opcoes.classe;
+    }
+    if (opcoes.texto !== undefined && opcoes.texto !== null) {
+        elemento.textContent = String(opcoes.texto);
+    }
+    if (opcoes.atributos) {
+        Object.entries(opcoes.atributos).forEach(([nome, valor]) => {
+            elemento.setAttribute(nome, valor);
+        });
+    }
+    filhos.filter((filho) => filho !== null && filho !== undefined && filho !== '').forEach((filho) => {
+        elemento.append(filho);
+    });
+    return elemento;
+}
+
+function linhaInfo(rotulo, valor) {
+    return criar('p', {}, [criar('strong', { texto: `${rotulo}: ` }), String(valor ?? '')]);
 }
 
 function converterData(valor) {
@@ -68,14 +86,24 @@ function linkWhatsapp(telefone, texto) {
     return texto ? `${url}?text=${encodeURIComponent(texto)}` : url;
 }
 
-function mostrarMensagem(texto, tipo = 'erro') {
+function botaoWhatsapp(telefone, texto, classe) {
+    return criar('a', {
+        classe,
+        texto: 'Chamar no WhatsApp',
+        atributos: { href: linkWhatsapp(telefone, texto), target: '_blank', rel: 'noopener' },
+    });
+}
+
+function mostrarMensagem(conteudo, tipo = 'erro') {
     const elemento = document.getElementById('mensagem');
     if (!elemento) {
         return;
     }
-    elemento.textContent = texto || '';
-    elemento.className = texto ? `mensagem ${tipo}` : 'mensagem';
-    if (texto) {
+    const partes = Array.isArray(conteudo) ? conteudo : [conteudo];
+    const temConteudo = partes.some((parte) => parte);
+    elemento.replaceChildren(...partes.filter(Boolean));
+    elemento.className = temConteudo ? `mensagem ${tipo}` : 'mensagem';
+    if (temConteudo) {
         elemento.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 }
@@ -92,18 +120,19 @@ function bloquearFormulario(formulario) {
 
 function seloStatus(situacao) {
     const status = STATUS[situacao] || { rotulo: situacao, classe: '' };
-    return `<span class="status ${status.classe}">${escaparHtml(status.rotulo)}</span>`;
+    return criar('span', { classe: `status ${status.classe}`, texto: status.rotulo });
 }
 
-function listaVazia(texto) {
-    return `<p class="lista-vazia">${escaparHtml(texto)}</p>`;
+function mostrarListaVazia(lista, texto) {
+    lista.replaceChildren(criar('p', { classe: 'lista-vazia', texto }));
 }
 
 function preencherCategorias(select, categorias) {
     categorias.forEach((categoria) => {
-        const opcao = document.createElement('option');
-        opcao.value = categoria.id;
-        opcao.textContent = categoria.nome;
-        select.appendChild(opcao);
+        select.append(criar('option', { texto: categoria.nome, atributos: { value: categoria.id } }));
     });
+}
+
+function confirmar(pergunta) {
+    return window.confirm(pergunta);
 }
