@@ -6,19 +6,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Doações Disponíveis | Projeto</title>
+    <title>Doações Disponíveis | Alimento Para Todos</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/ong.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/ong.css">
 
 </head>
 
-<body>
+<body data-area="ong">
 
     <header class="cabecalho">
 
@@ -27,7 +27,9 @@
         </div>
 
         <nav class="menu">
-            <a href="doacoes-disponiveis.html" class="ativo">
+            <span class="usuario-nome" data-usuario-nome></span>
+
+            <a href="disponiveis.html" class="ativo">
                 Doações disponíveis
             </a>
 
@@ -35,7 +37,7 @@
                 Minhas reservas
             </a>
 
-            <a href="../login.html">
+            <a href="../index.html" data-sair>
                 Sair
             </a>
         </nav>
@@ -56,7 +58,7 @@
 
         </section>
 
-        <section class="filtros">
+        <form class="filtros" id="form-filtros">
 
             <div class="campo-filtro">
 
@@ -85,13 +87,20 @@
                 Filtrar
             </button>
 
-        </section>
+        </form>
 
-        <section class="lista-doacoes">
+        <p class="mensagem" id="mensagem" role="alert"></p>
+
+        <section class="lista-doacoes" id="lista-doacoes">
 
         </section>
 
     </main>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/paginas/disponiveis.js"></script>
 
 </body>
 

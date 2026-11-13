@@ -6,19 +6,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Nova Doação</title>
+    <title>Nova Doação | Alimento Para Todos</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/comercio.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/comercio.css">
 
 </head>
 
-<body>
+<body data-area="comercio">
 
     <header class="cabecalho">
 
@@ -27,8 +27,9 @@
         </div>
 
         <nav class="menu">
+            <span class="usuario-nome" data-usuario-nome></span>
             <a href="minhas-doacoes.html">Minhas doações</a>
-            <a href="../login.html">Sair</a>
+            <a href="../index.html" data-sair>Sair</a>
         </nav>
 
     </header>
@@ -39,12 +40,14 @@
 
             <div class="pagina-titulo">
                 <div>
-                    <h2>Nova doação</h2>
+                    <h2 id="titulo-pagina">Nova doação</h2>
                     <p>Compartilhe alimentos e ajude quem precisa.</p>
                 </div>
             </div>
 
-            <form class="formulario-doacao" action="#" method="POST">
+            <form class="formulario-doacao" id="form-doacao" action="#" method="POST">
+
+                <p class="mensagem" id="mensagem" role="alert"></p>
 
                 <div class="campo">
                     <label for="titulo">Nome do alimento</label>
@@ -54,6 +57,7 @@
                         id="titulo"
                         name="titulo"
                         placeholder="Ex: Frutas variadas"
+                        maxlength="100"
                         required
                     >
                 </div>
@@ -78,6 +82,7 @@
                         id="quantidade"
                         name="quantidade"
                         placeholder="Ex: 10 kg ou 20 unidades"
+                        maxlength="50"
                         required
                     >
                 </div>
@@ -100,6 +105,7 @@
                         id="descricao"
                         name="descricao"
                         rows="4"
+                        maxlength="1000"
                         placeholder="Adicione informações sobre os alimentos..."
                     ></textarea>
                 </div>
@@ -110,7 +116,7 @@
                         Voltar
                     </a>
 
-                    <button type="submit" class="btn-principal">
+                    <button type="submit" class="btn-principal" id="btn-salvar">
                         Cadastrar doação
                     </button>
 
@@ -121,6 +127,11 @@
         </section>
 
     </main>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/paginas/nova-doacao.js"></script>
 
 </body>
 

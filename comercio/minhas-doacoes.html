@@ -6,19 +6,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Minhas Doações | Projeto</title>
+    <title>Minhas Doações | Alimento Para Todos</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/comercio.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/comercio.css">
 
 </head>
 
-<body>
+<body data-area="comercio">
 
     <header class="cabecalho">
 
@@ -27,11 +27,13 @@
         </div>
 
         <nav class="menu">
+            <span class="usuario-nome" data-usuario-nome></span>
+
             <a href="minhas-doacoes.html" class="ativo">
                 Minhas doações
             </a>
 
-            <a href="../login.html">
+            <a href="../index.html" data-sair>
                 Sair
             </a>
         </nav>
@@ -56,14 +58,18 @@
 
         </section>
 
+        <p class="mensagem" id="mensagem" role="alert"></p>
 
-        <!-- LISTA DE DOAÇÕES -->
-        <section class="lista-doacoes">
+        <section class="lista-doacoes" id="lista-doacoes">
 
-            
         </section>
 
     </main>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/paginas/minhas-doacoes.js"></script>
 
 </body>
 

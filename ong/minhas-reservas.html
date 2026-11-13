@@ -6,19 +6,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Minhas Reservas | Projeto</title>
+    <title>Minhas Reservas | Alimento Para Todos</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/ong.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/ong.css">
 
 </head>
 
-<body>
+<body data-area="ong">
 
     <header class="cabecalho">
 
@@ -27,8 +27,9 @@
         </div>
 
         <nav class="menu">
+            <span class="usuario-nome" data-usuario-nome></span>
 
-            <a href="doacoes-disponiveis.html">
+            <a href="disponiveis.html">
                 Doações disponíveis
             </a>
 
@@ -36,7 +37,7 @@
                 Minhas reservas
             </a>
 
-            <a href="../login.html">
+            <a href="../index.html" data-sair>
                 Sair
             </a>
 
@@ -58,11 +59,18 @@
 
         </section>
 
-        <section class="lista-doacoes">
+        <p class="mensagem" id="mensagem" role="alert"></p>
+
+        <section class="lista-doacoes" id="lista-reservas">
 
         </section>
 
     </main>
+
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/paginas/minhas-reservas.js"></script>
 
 </body>
 
